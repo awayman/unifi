@@ -1,32 +1,25 @@
-MongoDB - NoSQL database
-========================
+UniFi Appliance
+===============
 
-`MongoDB`_ (from "humongous") is a scalable, high-performance
-document-oriented NoSQL database system. Instead of storing data in
-tables as is done in a "classical" relational database, MongoDB stores
-structured data as JSON-like documents with dynamic schemas, making
-integration with certain types of applications easier and faster.
+The UniFi® Software-Defined Networking (SDN) platform is an end-to-end system of network devices across different locations — all controlled from a single interface.
 
-This appliance includes all the standard features in `TurnKey Core`_,
+UniFi® Video is a powerful and flexible, integrated IP video management surveillance system designed to work with UniFi® Video Cameras.
+
+This appliance includes all the standard features in `MongoDB`_,
 and on top of that:
 
-- MongoDB configurations:
+- UniFi Network Management Controller:
    
-   - MongoDB installed and maintained through the package management
-     system (mongodb package).
-   - Configured with auth enabled (security).
-   - Configured to bind to all network interfaces (convenience).
-   - Includes MongoDB PHP bindings.
-   - Includes MongoDB Python bindings and iPython.
+   - Intuitive and robust configuration
+   - Control and monitoring
+   - Local and cloud access
 
-- RockMongo for web based administration:
+- UniFi Surveillance Camera Management Software:
    
-   - Installed from upstream source code to /var/www/rockmongo.
-   - RockMongo is powered by Lighttpd with SSL support out-of-the-box.
-
-- Postfix MTA (bound to localhost) to allow sending of email (e.g.,
-  password recovery).
-- Webmin modules for configuring Postfix.
+   - View live feeds in a single or customizable, multi-camera format
+   - The intuitive, configurable user interface
+   - Motion detection, security alerts
+   - User-level access rights, and timeline viewing options
 
 Credentials *(passwords set at first boot)*
 -------------------------------------------
@@ -34,5 +27,4 @@ Credentials *(passwords set at first boot)*
 -  Webmin, SSH: username **root**
 
 
-.. _MongoDB: http://www.mongodb.org/
-.. _TurnKey Core: https://www.turnkeylinux.org/core
+.. _MongoDB: https://www.turnkeylinux.org/mongodb
