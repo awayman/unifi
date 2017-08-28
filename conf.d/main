@@ -1,0 +1,44 @@
+#!/bin/bash -ex
+
+ADMIN_NAME=admin
+ADMIN_PASS=$(mcookie)
+
+SRC=/usr/local/src
+WEBROOT=/var/www/rockmongo
+
+# mongodb: create admin user before enabling auth
+/etc/init.d/mongodb start
+# wait for mongdb to start
+MONGO_PORT=27017
+CURL="curl --output /dev/null --silent"
+until $($CURL http://127.0.0.1:$MONGO_PORT); do
+    sleep 5
+done
+mongo admin --eval "db.addUser(\"admin\", \"$ADMIN_PASS\")"
+/etc/init.d/mongodb stop
+
+# mongodb: enable auth and bind to all interfaces
+CONF=/etc/mongodb.conf
+sed -i "s|^#auth.*|auth = true|" $CONF
+sed -i "s|^bind_ip.*|bind_ip = 0.0.0.0|" $CONF
+
+pecl install mongo
+
+CONF=$WEBROOT/config.php
+sed -i "s|\[\"mongo_auth\"\].*|[\"mongo_auth\"] = true;|" $CONF
+
+cat >$WEBROOT/app/configs/rplugin.php<<EOF
+<?php
+\$plugins["mapreduce"]["enabled"] = 1;
+\$plugins["sharding"]["enabled"] = 1;
+\$plugins["systemjs"]["enabled"] = 1;
+?>
+EOF
+
+chown -R root:root $WEBROOT
+
+lighty-enable-mod fastcgi || true
+lighty-enable-mod fastcgi-php || true
+lighty-disable-mod ssl || true
+lighty-enable-mod rockmongo
+
